@@ -22,6 +22,7 @@ exactly once.
 ---
 
 ## 🏗️ Architecture
+![Workflow](./Screenshots/workflow.png)
 
 ---
 
@@ -37,6 +38,24 @@ exactly once.
 | Docker Compose | Container orchestration |
 | RSA-OAEP + AES-256-GCM | Hybrid encryption |
 | Resilience4j | Circuit breaker + retry |
+
+---
+## 📸 Visual Overview
+
+### 🖥️ Main Dashboard
+Features real-time stats and the technology stack overview.
+![Dashboard](./Screenshots/dashboard.png)
+
+### 📱 Mesh & Ledger
+Tracking packet propagation and database settlement.
+| Mesh Devices | Transaction Ledger |
+|---|---|
+| ![Mesh](./Screenshots/mesh-devices.png) | ![Ledger](./Screenshots/transaction-ledger.png) |
+
+### ⚙️ System Logs & Notifications
+| Activity Logs | Email Settlement |
+|---|---|
+| ![Logs](./Screenshots/active-logs.png) | ![Email](./Screenshots/email-notification.png) |
 
 ---
 
