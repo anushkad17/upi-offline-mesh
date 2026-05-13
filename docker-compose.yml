@@ -1,0 +1,68 @@
+services:
+  upimesh-app:
+    build: .
+    container_name: upimesh-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      # --- PostgreSQL ---
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ep-autumn-dew-apwpjaer-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+
+      # --- Redis & Kafka ---
+      - SPRING_DATA_REDIS_HOST=redis-cache
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
+
+      # --- Fast2SMS ---
+      - FAST2SMS_API_KEY=${FAST2SMS_API_KEY}
+      - MY_MOBILE_NUMBER=${MY_MOBILE_NUMBER}
+
+      # --- Gmail / JavaMailSender ---
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - MY_EMAIL_ADDRESS=${MY_EMAIL_ADDRESS}
+
+      # --- Hibernate ---
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_OPEN_IN_VIEW=false
+
+    depends_on:
+      - redis-cache
+      - kafka-broker
+
+  redis-cache:
+    image: redis:7-alpine
+    container_name: upimesh-redis-container
+    ports:
+      - "6379:6379"
+    restart: always
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: upimesh-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka-broker:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: upimesh-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092" # Required for IntelliJ to connect to Docker Kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # Tells Kafka to listen on all interfaces for both internal and external traffic
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      # Defines how the clients should reach the broker
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

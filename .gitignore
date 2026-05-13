@@ -1,0 +1,40 @@
+### Environment & Secrets ###
+.env
+.env.local
+.env.*.local
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.restoreBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+gen/
+
+### Visual Studio Code ###
+.vscode/
+*.code-workspace
+.history/
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Logs & Temp ###
+*.log
+logs/
+temp/
+tmp/
