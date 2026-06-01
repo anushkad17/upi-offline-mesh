@@ -1,4 +1,4 @@
-# 🛰️ Offline-First Distributed Payment Platform
+# 🛰️ Offline-Payment Platform
 
 > Send money in a basement with zero internet.  
 > Encrypted packets gossip phone-to-phone until  
